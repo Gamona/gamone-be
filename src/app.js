@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -21,14 +22,17 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 // set security HTTP headers
 app.use(helmet());
 
-// parse json request body
-app.use(express.json());
+// // parse json request body
+// app.use(express.json());
 
-// parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
+// // parse urlencoded request body
+// app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
