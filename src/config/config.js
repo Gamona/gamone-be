@@ -33,6 +33,7 @@ if (error) {
 }
 
 module.exports = {
+  rootPath: path.resolve(__dirname, '..'),
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mongoose: {
