@@ -2,14 +2,14 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-
+const bcrypt = require('bcryptjs');
 const path = require('path')
 const fs = require('fs')
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { lawyerService } = require('../services');
+const { lawyerService, tokenService } = require('../services');
 const config = require('../config/config');
 
 const createLawyer = catchAsync(async (req, res) => {
@@ -23,8 +23,6 @@ const createLawyer = catchAsync(async (req, res) => {
 
     const src = fs.createReadStream(tmp);
     const dest = fs.createWriteStream(targetPath);
-    
-    console.log(fileName)
 
     src.pipe(dest);
     src.on('end', async() => {
@@ -38,7 +36,7 @@ const createLawyer = catchAsync(async (req, res) => {
           specialize,
           description,
           email,
-          password,
+          password: await bcrypt.hash(password, 10),
           avatar: fileName
         }
 
@@ -53,10 +51,37 @@ const createLawyer = catchAsync(async (req, res) => {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
       }
     })
+  } else {
+    res.json({ 
+      responseCode: 400, 
+      status: "Must have avatar",
+    });
   }
 });
 
+const loginLawyer = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+  const lawyer = await lawyerService.getUserByEmail(email);
+  if (!lawyer) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  
+  } else {
+    const check = await lawyerService.comparePassword(password, lawyer.password);
+    if (!check) { 
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
+    } else {
+      const tokens = await tokenService.generateAuthTokens(lawyer);
+      res.json({ 
+        responseCode: 200, 
+        message: "success",
+        tokens
+      });
+    }
+  }
+})
+
 
 module.exports = {
-  createLawyer
+  createLawyer,
+  loginLawyer
 };

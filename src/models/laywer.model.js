@@ -57,6 +57,11 @@ const lawyerSchema = mongoose.Schema(
       enum: roles,
       default: 'lawyer',
     },
+    status: {
+      type: String,
+      required: true,
+      default: 'offline',
+    },
     avatar: {
       type: String,
       required: true,
