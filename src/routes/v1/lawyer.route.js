@@ -9,6 +9,7 @@ const validate = require('../../middlewares/validate');
 
 const router = express.Router();
 
-router.post('/', multer({ dest: os.tmpdir() }).single('avatar'), lawyerController.createLawyer);
+router.post('/register', multer({ dest: os.tmpdir() }).single('avatar'), validate(lawyerValidation.register) , lawyerController.createLawyer);
+router.post('/login', validate(lawyerValidation.login) , lawyerController.loginLawyer);
 
 module.exports = router;

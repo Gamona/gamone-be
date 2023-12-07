@@ -8,13 +8,21 @@ const register = {
     name: Joi.string().required(),
     address: Joi.string().required(),
     education: Joi.string().required(),
-    specialize: Joi.array().items(Joi.string()),
+    specialize: Joi.string().required(),
     description: Joi.string().required(),
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
   }),
 };
 
+const login = {
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().custom(password),
+  }),
+}
+
 module.exports = {
-  register
+  register,
+  login
 };
