@@ -11,6 +11,10 @@ exports.getUserByEmail = async (email) => {
   return lawyerModel.findOne({ email });
 };
 
+exports.updateStatusByID = async (id) => {
+  return lawyerModel.findByIdAndUpdate({"_id" : id}, {"status" : "online"});
+};
+
 exports.comparePassword = async(reqPW, password) => {
   const check = await bcrypt.compare(reqPW, password);
   return check;
