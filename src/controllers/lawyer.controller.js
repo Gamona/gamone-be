@@ -70,6 +70,7 @@ const loginLawyer = catchAsync(async (req, res) => {
     if (!check) { 
       throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
     } else {
+      await lawyerService.updateStatusByID(lawyer._id)
       const tokens = await tokenService.generateAuthTokens(lawyer);
       res.json({ 
         responseCode: 200, 
