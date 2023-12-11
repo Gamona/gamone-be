@@ -47,6 +47,11 @@ const memberSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    premium: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,
