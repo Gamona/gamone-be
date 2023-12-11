@@ -62,7 +62,6 @@ const loginMember = catchAsync(async (req, res) => {
     if (!check) { 
       throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
     } else {
-      await memberService.updateStatusByID(member._id)
       const tokens = await tokenService.generateAuthTokens(member);
       res.json({ 
         responseCode: 200, 
