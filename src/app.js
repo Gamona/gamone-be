@@ -1,4 +1,5 @@
 const express = require('express');
+const admin = require('firebase-admin');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const xss = require('xss-clean');
@@ -14,8 +15,14 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const serviceAccount = require('../serviceAccountKey.json');
 
 const app = express();
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://realtimecrud-b5be1.firebaseio.com',
+});
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
