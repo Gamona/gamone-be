@@ -5,7 +5,8 @@ const chatController = require('../../controllers/chat.controller');
 
 const router = express.Router();
 
-router.get('/', chatController.getChats);
+router.get('/chats', chatController.getChats);
+router.get('/messages', chatController.getMessages);
 router.post('/', chatController.postChat);
 
 
