@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const lawyerRoute = require('./lawyer.route');
 const memberRoute = require('./member.route');
 const chatRoute = require('./chat.route');
+const categoryRoute = require('./category.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -29,6 +30,10 @@ const defaultRoutes = [
   {
     path: '/chat',
     route: chatRoute,
+  },
+  {
+    path: '/category',
+    route: categoryRoute,
   },
 ];
 

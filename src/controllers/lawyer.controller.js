@@ -24,6 +24,10 @@ const createLawyer = catchAsync(async (req, res) => {
     const src = fs.createReadStream(tmp);
     const dest = fs.createWriteStream(targetPath);
 
+    const splitTag = specialize.split(",").map(function(item) {
+      return item.trim();
+    });
+
     src.pipe(dest);
     src.on('end', async() => {
       try {
@@ -33,7 +37,7 @@ const createLawyer = catchAsync(async (req, res) => {
           name,
           address,
           education,
-          specialize,
+          specialize: splitTag,
           description,
           email,
           password: await bcrypt.hash(password, 10),
