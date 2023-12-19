@@ -80,6 +80,11 @@ const loginLawyer = catchAsync(async (req, res) => {
         responseCode: 200, 
         message: "success",
         data: {
+          name: lawyer.name,
+          email: lawyer.email,
+          specialize: lawyer.specialize,
+          education: lawyer.education,
+          description: lawyer.description,
           role: lawyer.role,
           userID: lawyer._id,
         },
