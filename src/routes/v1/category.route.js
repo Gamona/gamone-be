@@ -5,7 +5,7 @@ const { categoryController } = require('../../controllers');
 const router = express.Router();
 
 
-router.get('/limit', categoryController.getCategoriesLimit);
-router.get('/all', categoryController.getCategoriesAll);
+router.post('/limit', categoryController.getCategoriesLimit);
+router.post('/all', categoryController.getCategoriesAll);
 
 module.exports = router;
