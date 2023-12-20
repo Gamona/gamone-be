@@ -68,7 +68,7 @@ const loginMember = catchAsync(async (req, res) => {
           name: member.name,
           email: member.email,
           role: member.role,
-          userID: member._id,
+          userId: member._id,
           premium: member.premium,
         },
         tokens,

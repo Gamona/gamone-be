@@ -5,7 +5,9 @@ const dashboardController = require('../../controllers/dashboard.controller');
 
 const router = express.Router();
 
-router.post('/', dashboardController.makePremiumUser);
+router.post('/premium', dashboardController.makePremiumUser);
+router.get('/lawyer', dashboardController.lawyerDashboard);
+
 
 
 module.exports = router;
