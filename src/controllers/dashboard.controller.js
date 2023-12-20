@@ -22,9 +22,30 @@ const makePremiumUser = catchAsync(async (req, res) => {
   res.status(200).json({ 
     responseCode: 200, 
     status: "success",
+    data: {
+      name: userPre.name,
+      email: userPre.email,
+      role: userPre.role,
+      userId: userPre._id,
+      premium: userPre.premium,
+    },
+  });
+})
+
+const lawyerDashboard = catchAsync(async (req, res) => {
+  const lawDash = await dashboardService.allLawyer()
+  if(!lawDash) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Failed')
+  }
+
+  res.status(200).json({ 
+    responseCode: 200, 
+    status: "success",
+    data: lawDash
   });
 })
 
 module.exports = {
   makePremiumUser,
+  lawyerDashboard,
 };
