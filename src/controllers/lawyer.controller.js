@@ -86,7 +86,7 @@ const loginLawyer = catchAsync(async (req, res) => {
           education: lawyer.education,
           description: lawyer.description,
           role: lawyer.role,
-          userID: lawyer._id,
+          userId: lawyer._id,
         },
         tokens
       });
