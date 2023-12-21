@@ -17,7 +17,7 @@ const createMember = catchAsync(async (req, res) => {
     const tmp = req.file.path;
     const originalExt = req.file.originalname.split('.')[req.file.originalname.split('.').length - 1];
     const fileName = `${req.file.filename}.${originalExt}`;
-    const targetPath = path.resolve(config.rootPath, `../upload/${fileName}`);
+    const targetPath = path.resolve(config.rootPath, `../src/public/uploads/${fileName}`);
 
     const src = fs.createReadStream(tmp);
     const dest = fs.createWriteStream(targetPath);

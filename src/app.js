@@ -16,8 +16,11 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const serviceAccount = require('../serviceAccountKey.json');
+const path = require('path');
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
