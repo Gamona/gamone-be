@@ -7,7 +7,7 @@ exports.getLawyerLimit = async (params) => {
       $and: [{ specialize: { $all: params } }],
     })
     .limit(2)
-    .select('_id name specialize education')
+    .select('_id name specialize education avatar')
     .exec();
   return res;
 };
@@ -17,7 +17,7 @@ exports.getLawyerAll = async (params) => {
     .find({
       $and: [{ specialize: { $all: params } }],
     })
-    .select('_id name specialize education')
+    .select('_id name specialize education avatar')
     .exec();
   return res;
 };

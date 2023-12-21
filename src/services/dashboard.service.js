@@ -8,6 +8,6 @@ exports.userPremium = async (userId) => {
 } 
 
 exports.allLawyer = async () => {
-  const lawyer = await lawyerModel.find().select('name specialize education').exec();
+  const lawyer = await lawyerModel.find().select('name specialize education avatar').exec();
   return lawyer
 }
