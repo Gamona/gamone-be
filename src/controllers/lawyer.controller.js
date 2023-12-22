@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs');
 const path = require('path')
 const fs = require('fs')
 const httpStatus = require('http-status');
-const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { lawyerService, tokenService } = require('../services');
@@ -14,6 +13,9 @@ const config = require('../config/config');
 
 const createLawyer = catchAsync(async (req, res) => {
   const { noktpa, name, address, education, specialize, description, email, password } = req.body
+  const splitTag = specialize.split(",").map(function(item) {
+    return item.trim();
+  });
 
   if(req.file) { 
     const tmp = req.file.path;
@@ -23,10 +25,6 @@ const createLawyer = catchAsync(async (req, res) => {
 
     const src = fs.createReadStream(tmp);
     const dest = fs.createWriteStream(targetPath);
-
-    const splitTag = specialize.split(",").map(function(item) {
-      return item.trim();
-    });
 
     src.pipe(dest);
     src.on('end', async() => {
@@ -44,7 +42,7 @@ const createLawyer = catchAsync(async (req, res) => {
           avatar: fileName
         }
 
-        const lawyer = await lawyerService.lawyerRegistration(payload);
+        await lawyerService.lawyerRegistration(payload);
         res.json({ 
           responseCode: 200, 
           status: "success",
@@ -56,10 +54,30 @@ const createLawyer = catchAsync(async (req, res) => {
       }
     })
   } else {
-    res.json({ 
-      responseCode: 400, 
-      status: "Must have avatar",
-    });
+    try {
+
+      const payload = {
+        noktpa,
+        name,
+        address,
+        education,
+        specialize: splitTag,
+        description,
+        email,
+        password: await bcrypt.hash(password, 10),
+        avatar: 'undefined'
+      }
+
+      await lawyerService.lawyerRegistration(payload);
+      res.json({ 
+        responseCode: 200, 
+        status: "success",
+      });
+      
+
+    } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    }
   }
 });
 
