@@ -15,3 +15,9 @@ exports.comparePassword = async(reqPW, password) => {
   const check = await bcrypt.compare(reqPW, password);
   return check;
 }
+
+exports.memberProfile = async (id) => {
+  const memberProfile = await memberModel.findOne({'_id' : id});
+  return memberProfile
+
+}
