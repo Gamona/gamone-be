@@ -77,7 +77,28 @@ const loginMember = catchAsync(async (req, res) => {
   }
 });
 
+const profileMember = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const member = await memberService.memberProfile(id)
+  if (!member) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  } else {
+    res.json({
+      responseCode: 200,
+      message: 'success',
+      data: {
+        name: member.name,
+        email: member.email,
+        role: member.role,
+        userId: member._id,
+        premium: member.premium,
+      }
+    });
+  }
+});
+
 module.exports = {
   createMember,
   loginMember,
+  profileMember
 };

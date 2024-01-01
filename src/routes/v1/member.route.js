@@ -11,5 +11,6 @@ const router = express.Router();
 
 router.post('/register/', multer({ dest: os.tmpdir() }).single('avatar'), validate(memberValidation.register) , memberController.createMember);
 router.post('/login/', validate(memberValidation.login) , memberController.loginMember);
+router.get('/profile/:id' , memberController.profileMember);
 
 module.exports = router;
